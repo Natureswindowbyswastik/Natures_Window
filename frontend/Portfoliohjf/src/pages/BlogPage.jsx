@@ -72,10 +72,10 @@ function BlogPage() {
         <p className="text-6xl border-b-2 text-left w-[85%] flex text-yellow font-bold">Stories</p>
       </div>
 
-      <div className="flex md:flex-row flex-col justify-center items-center gap-10">
-        <div className="w-[90%] h-full flex flex-col md:flex-row lg:flex-row justify-between lg:gap-20 md:gap-6">
+      <div className="flex md:flex-row flex-col justify-center items-center gap-10  ">
+        <div className="w-[90%] h-full flex flex-col md:flex-row lg:flex-row justify-between  lg:gap-20 md:gap-6 ">
 
-          <div className="w-full md:w-1/2 lg:w-1/4 p-4 overflow-x-auto md:overflow-x-auto lg:overflow-y-auto lg:h-[800px] lg:max-h-[800px] md:h-[400px] md:max-h-[400px]">
+          <div className=" w-full md:w-1/2 lg:w-1/4 p-4 overflow-x-auto md:overflow-x-auto lg:overflow-y-auto lg:h-[800px] lg:max-h-[800px] md:h-[400px] md:max-h-[400px]">
             {blogs.length === 0 && !loading ? (
               <p className="text-xl">No blogs available</p>
             ) : (
@@ -110,19 +110,19 @@ function BlogPage() {
             {currentBlog?.images?.length > 0 && (
               <div>
                 {currentBlog.images.map((image, index) => (
-                  <div key={index} className="h-[50vh] md:h-full flex flex-col gap-4 ">
+                  <div key={index} className=" md:h-full flex flex-col gap-4 ">
                     <div>
                     <img
                       src={image}
-                      className="w-full h-[90vh] object-cover rounded-lg"
+                      className="w-full md:h-[90vh] object-cover rounded-lg"
                       loading="lazy"
                     />
                     </div>
                    
                       <div>
-              <h1 className="text-5xl font-bold text-yellow">{currentBlog.heading}</h1>
-              <p className="text-3xl mt-2">{currentBlog.subheading}</p>
-              <p className="mt-4 text-2xl">{currentBlog.descriptions}</p>
+              <h1 className="md:text-5xl text-3xl font-bold text-yellow">{currentBlog.heading}</h1>
+              <p className="md:text-3xl text-xl mt-2">{currentBlog.subheading}</p>
+              <p className="mt-4 md:text-2xl">{currentBlog.descriptions}</p>
               
             {currentBlog.link && (
               <a
