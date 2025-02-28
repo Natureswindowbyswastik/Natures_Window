@@ -8,11 +8,13 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 function Home() {
+
   useEffect(() => {
     AOS.init({ duration: "1200" });
   }, []);
 
   const [gallery, setGallery] = useState([]);
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [featuredImages, setFeaturedImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,7 +24,9 @@ function Home() {
   useEffect(() => {
     const fetchFeaturedImages = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/gallery/featured");
+        console.log("API URL:",  import.meta.env.VITE_REACT_APP_API_URL);
+
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/featured`);
         if (response.data.success) {
           setFeaturedImages(response.data.featuredImage); // Set the featured images
           if (response.data.featuredImage.length > 0) {
@@ -39,14 +43,13 @@ function Home() {
     };
     fetchFeaturedImages();
   }, []);
-
-  // Fetch gallery images
   useEffect(() => {
     const fetchGallery = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:3001/gallery/showimage");
-        setGallery(response.data.gallery);
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/showimage`);
+
+        setGallery(response.data.gallery ); 
       } catch (error) {
         setError(error.message);
       } finally {
@@ -55,6 +58,8 @@ function Home() {
     };
     fetchGallery();
   }, []);
+  
+
 
   const handleHoverImage = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -72,7 +77,7 @@ function Home() {
             <img
               src="https://res.cloudinary.com/dj010hm7j/image/upload/v1737966313/DSC_0031_b1ini2.jpg"
               alt=""
-           data-aos="fade-down"
+          
               className="w-full h-screen flex object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-black/100"></div>
@@ -132,7 +137,6 @@ function Home() {
             <img
               src="https://res.cloudinary.com/dj010hm7j/image/upload/v1737389656/DSC_3868_eaosja.jpg"
               alt=""
-               data-aos="fade-right"
               className="object-center"
           
             />
@@ -167,7 +171,7 @@ function Home() {
           className={`group relative overflow-hidden rounded-lg cursor-pointer transition-transform duration-500 ease-in-out 
             ${index % 2 === 0 ? "row-span-3" : "row-span-2"}`}
           onClick={() => setSelectedImage(image)}
-          data-aos="fade-right"
+          data-aos="fade-down"
         >
           {/* Image */}
           <img

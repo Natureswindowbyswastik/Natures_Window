@@ -12,7 +12,7 @@ function Footer() {
       </Link>
 
       </div>
-      <div className='flex flex-row justify-between w-[90%] mt-4'>
+      <div className='flex md:flex-row flex-col  justify-between w-[90%] mt-4'>
       <div className='logo-area flex flex-col gap-4 ' >
  
  <div className='flex flex-col gap-4 text-left'>

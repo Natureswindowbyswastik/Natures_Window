@@ -40,7 +40,7 @@ function AddGallery({showAddGallery,setShowAddGallery}) {
         form.append("feature",formData.feature)
 
         try {
-            await axios.post ("http://localhost:3001/gallery/addimage",form,{
+            await axios.post (`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/addimage`,form,{
                 headers:{
                     "Content-Type":"multipart/form-data"
                 }

@@ -9,6 +9,7 @@ import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 function Collection() {
+
   const [selectedImage, setSelectedImage] = useState(null);
     const [gallery,setGallery] = useState([]);
       const [error,setError]=useState(null);
@@ -17,7 +18,7 @@ function Collection() {
     const fetchGallery = async ()=>{
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:3001/gallery/showimage');
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/showimage`);
         setGallery(response.data.gallery);
         setLoading(false);
       } catch (error) {

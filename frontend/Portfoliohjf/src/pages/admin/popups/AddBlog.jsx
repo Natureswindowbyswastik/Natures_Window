@@ -47,7 +47,7 @@ function AddBlog({ showAddBlog, setShowAddBlog }) {
       form.append('images', image);
     });
     try {
-      await axios.post('http://localhost:3001/blog/addblog', form, {
+      await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/blog/addblog`, form, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

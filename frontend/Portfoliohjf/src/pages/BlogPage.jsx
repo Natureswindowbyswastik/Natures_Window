@@ -18,7 +18,7 @@ function BlogPage() {
     const fetchBlogs = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:3001/blog/showblog");
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/blog/showblog`);
         setBlogs(response.data.blog);
         if (response.data.blog.length > 0) {
           setCurrentBlog(response.data.blog[0]); // Set first blog as default

@@ -43,7 +43,7 @@ function About() {
 
     try {
       const response = await axios.post(
-        'http://localhost:3001/form/submitForm',
+        `${import.meta.env.VITE_REACT_APP_API_URL}/form/submitForm`,
         formData,
         {
           headers: { 'Content-Type': 'application/json' },

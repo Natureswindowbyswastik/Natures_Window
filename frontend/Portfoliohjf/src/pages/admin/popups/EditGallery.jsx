@@ -53,7 +53,7 @@ function EditGallery({showEditGallery,setShowEditGallery,currentGallery}) {
       }
          
     try {
-      await axios.post(`http://localhost:3001/gallery/editgallery/${currentGallery._id}`, updatedFormData, {
+      await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/editgallery/${currentGallery._id}`, updatedFormData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

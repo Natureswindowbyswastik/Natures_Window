@@ -9,7 +9,7 @@ function DeleteGallery({showDeleteGallery,setShowDeleteGallery, galleryToDelete}
     const handleDelete = async() =>{
         console.log(galleryToDelete)
         try {
-            await axios.delete(`http://localhost:3001/gallery/deletegallery/${galleryToDelete._id}`)
+            await axios.delete(`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/deletegallery/${galleryToDelete._id}`)
             toast.success("Gallery Deleted successfully");
             setTimeout(()=>{
                 setShowDeleteGallery(false);

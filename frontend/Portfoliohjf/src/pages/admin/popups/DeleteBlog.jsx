@@ -9,7 +9,7 @@ function DeleteBlog({ showDeleteBlog, setShowDeleteBlog, blogToDelete }) {
     console.log(blogToDelete._id);
     
     try {
-      await axios.delete(`http://localhost:3001/blog/deleteblog/${blogToDelete._id}`);
+      await axios.delete(`${import.meta.env.VITE_REACT_APP_API_URL}/blog/deleteblog/${blogToDelete._id}`);
       toast.success("Blog deleted successfully!");
       setTimeout(() => {
         setShowDeleteBlog(false);

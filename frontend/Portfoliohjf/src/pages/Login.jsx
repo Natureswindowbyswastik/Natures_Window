@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../components/Button';
-
+import axios from 'axios';
 function Login() {
     const [loginInfo, setLoginInfo] = useState({ email: '', password: '' });
     const [isVisible, setIsVisible] = useState(false);
     const navigate = useNavigate();
 
-
+console.log(import.meta.env.VITE_REACT_APP_API_URL)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setLoginInfo(prevState => ({ ...prevState, [name]: value }));
@@ -25,12 +25,13 @@ function Login() {
     };
 
     const handleLogin = async (e) => {
+
         e.preventDefault();
         const { email, password } = loginInfo;
         if (!email || !password) return handleError("All fields are required");
 
         try {
-            const response = await fetch('http://localhost:3001/auth/login', {
+            const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/login`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginInfo)

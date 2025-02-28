@@ -21,7 +21,7 @@ function Gallery() {
     const fetchGallery = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:3001/gallery/showimage');
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/showimage`);
         setGallery(response.data.gallery);
         setLoading(false);
       } catch (error) {
