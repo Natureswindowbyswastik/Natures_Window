@@ -21,7 +21,7 @@ function Blog() {
     const fetchBlog = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/blog/showblog}`);
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/blog/showblog`);
         setBlog(response.data.blog);
       } catch (error) {
         setError(error.message);
