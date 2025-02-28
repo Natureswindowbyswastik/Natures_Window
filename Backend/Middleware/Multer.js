@@ -15,9 +15,8 @@ const storage = new CloudinaryStorage({
         ]
     }
 });
-const upload = multer({ storage: storage,imits: {
-    fileSize: 50 * 1024 * 1024 
-  } });
+const upload = multer({ storage: storage
+  });
 
 
 const blogStorage = new CloudinaryStorage({
