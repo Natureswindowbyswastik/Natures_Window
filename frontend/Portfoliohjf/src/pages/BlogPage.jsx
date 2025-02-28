@@ -48,7 +48,7 @@ function BlogPage() {
 
   return (
     <div className="h-full">
-      {/* Hero Section */}
+   
       <div className="relative w-full h-[100vh] flex justify-center items-center overflow-x-hidden">
         <img
           src="https://res.cloudinary.com/dj010hm7j/image/upload/v1740675154/dynamic/cpyuw83b2nxfr7djlfdz.jpg"
@@ -74,7 +74,7 @@ function BlogPage() {
 
       <div className="flex md:flex-row flex-col justify-center items-center gap-10">
         <div className="w-[90%] h-full flex flex-col md:flex-row lg:flex-row justify-between lg:gap-20 md:gap-6">
-          {/* Blog List */}
+
           <div className="w-full md:w-1/2 lg:w-1/4 p-4 overflow-x-auto md:overflow-x-auto lg:overflow-y-auto lg:h-[800px] lg:max-h-[800px] md:h-[400px] md:max-h-[400px]">
             {blogs.length === 0 && !loading ? (
               <p className="text-xl">No blogs available</p>
@@ -104,9 +104,9 @@ function BlogPage() {
             )}
           </div>
 
-          {/* Blog Preview */}
+        
           <div className="w-full md:w-1/2 lg:w-3/4 p-6 rounded-lg flex flex-col gap-4">
-            {/* Check if currentBlog is not null and has images */}
+         
             {currentBlog?.images?.length > 0 && (
               <div>
                 {currentBlog.images.map((image, index) => (
