@@ -10,7 +10,7 @@ const BlogRouter = require('./routes/BlogRouter')
 const AuthRouter  = require('./routes/AuthRouter')
 const frontendURL = process.env.FRONTEND_URL ;
 app.use(cors({
-     origin: "https://natures-window-or5f1w1g8-swastik-sharmas-projects-8c9f418a.vercel.app",
+     origin: "https://natures-window.vercel.app/",
      methods:["GET","POST","PUT","DELETE"],
      allowedHeaders:["Content-Type","Authorization"]
      }));
