@@ -123,14 +123,7 @@ function BlogPage() {
               <h1 className="text-5xl font-bold text-yellow">{currentBlog.heading}</h1>
               <p className="text-3xl mt-2">{currentBlog.subheading}</p>
               <p className="mt-4 text-2xl">{currentBlog.descriptions}</p>
-            </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-          
-
+              
             {currentBlog.link && (
               <a
                 href={currentBlog.link}
@@ -141,6 +134,14 @@ function BlogPage() {
                 View More
               </a>
             )}
+            </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+          
+
           </div>
         </div>
       </div>
