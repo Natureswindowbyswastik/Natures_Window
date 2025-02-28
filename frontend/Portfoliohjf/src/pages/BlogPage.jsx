@@ -113,8 +113,8 @@ function BlogPage() {
           </div>
 
           {/* Blog Preview */}
-          <div className="w-full md:w-1/2 lg:w-3/4 p-6 rounded-lg flex flex-col gap-4">
-  {/* Check if currentBlog exists and has images */}
+        <div className="w-full md:w-1/2 lg:w-3/4 p-6 rounded-lg flex flex-col gap-4">
+  {/* Check if currentBlog is not null and has images */}
   {currentBlog?.images?.length > 0 && (
     <div>
       {currentBlog.images.map((image, index) => (
@@ -129,29 +129,8 @@ function BlogPage() {
     </div>
   )}
 
-  {/* Only render the content if currentBlog exists */}
-  {currentBlog ? (
-    <div>
-      <h1 className="text-5xl font-bold text-yellow">{currentBlog.heading}</h1>
-      <p className="text-3xl mt-2">{currentBlog.subheading}</p>
-      <p className="mt-4 text-2xl">{currentBlog.descriptions}</p>
-    </div>
-  ) : (
-    <p className="text-xl">No blog selected</p>
-  )}
-
-  {currentBlog?.link && (
-    <a
-      href={currentBlog.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block mt-4 text-yellow/40 hover:underline"
-    >
-      View More
-    </a>
-  )}
+  
 </div>
-
         </div>
       </div>
       <Footer />
