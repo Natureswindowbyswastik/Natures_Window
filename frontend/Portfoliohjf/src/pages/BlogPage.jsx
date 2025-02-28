@@ -47,8 +47,7 @@ function BlogPage() {
   };
 
   return (
-    <>
-    <div className="h-full ">
+    <div className="h-full">
       {/* Hero Section */}
       <div className="relative w-full h-[100vh] flex justify-center items-center overflow-x-hidden">
         <img
@@ -56,31 +55,24 @@ function BlogPage() {
           alt="Nature"
           data-aos="fade-down"
           className="absolute inset-0 w-full h-full object-cover"
-         
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/80"></div>
-        <div className="text-white p-6 md:p-10 rounded-md text-center flex flex-col md:w-[60%]"  data-aos="fade-up" >
-                <h1 className="text-yellow/80 text-3xl md:text-7xl font-bold">
-                  A Glimpse into My World
-                </h1>
-                <p className="mt-4 text-sm md:text-2xl">
-                  Exploring, capturing, and sharing the magic of the world—one
-                  journey at a time.
-                </p>
-              </div>
+        <div className="text-white p-6 md:p-10 rounded-md text-center flex flex-col md:w-[60%]" data-aos="fade-up">
+          <h1 className="text-yellow/80 text-3xl md:text-7xl font-bold">
+            A Glimpse into My World
+          </h1>
+          <p className="mt-4 text-sm md:text-2xl">
+            Exploring, capturing, and sharing the magic of the world—one journey at a time.
+          </p>
+        </div>
       </div>
 
-      <div className="justify-center items-center flex" >
-        <p className="text-6xl border-b-2 text-left w-[85%] flex text-yellow font-bold">
-          Stories
-        </p>
+      <div className="justify-center items-center flex">
+        <p className="text-6xl border-b-2 text-left w-[85%] flex text-yellow font-bold">Stories</p>
       </div>
 
-      <div
-        className="flex md:flex-row flex-col justify-center items-center gap-10"
-        
-      >
+      <div className="flex md:flex-row flex-col justify-center items-center gap-10">
         <div className="w-[90%] h-full flex flex-col md:flex-row lg:flex-row justify-between lg:gap-20 md:gap-6">
           {/* Blog List */}
           <div className="w-full md:w-1/2 lg:w-1/4 p-4 overflow-x-auto md:overflow-x-auto lg:overflow-y-auto lg:h-[800px] lg:max-h-[800px] md:h-[400px] md:max-h-[400px]">
@@ -113,45 +105,47 @@ function BlogPage() {
           </div>
 
           {/* Blog Preview */}
-        <div className="w-full md:w-1/2 lg:w-3/4 p-6 rounded-lg flex flex-col gap-4">
-  {/* Check if currentBlog is not null and has images */}
-  {currentBlog?.images?.length > 0 && (
-    <div>
-      {currentBlog.images.map((image, index) => (
-        <div key={index} className="h-[50vh] md:h-[80vh] ">
-          <img
-            src={image}
-            className="w-full h-full object-cover rounded-lg"
-            loading="lazy"
-          />
-        </div>
-      ))}
-    </div>
-  )}
+          <div className="w-full md:w-1/2 lg:w-3/4 p-6 rounded-lg flex flex-col gap-4">
+            {/* Check if currentBlog is not null and has images */}
+            {currentBlog?.images?.length > 0 && (
+              <div>
+                {currentBlog.images.map((image, index) => (
+                  <div key={index} className="h-[50vh] md:h-full flex flex-col gap-4 ">
+                    <div>
+                    <img
+                      src={image}
+                      className="w-full h-[90vh] object-cover rounded-lg"
+                      loading="lazy"
+                    />
+                    </div>
+                   
+                      <div>
+              <h1 className="text-5xl font-bold text-yellow">{currentBlog.heading}</h1>
+              <p className="text-3xl mt-2">{currentBlog.subheading}</p>
+              <p className="mt-4 text-2xl">{currentBlog.descriptions}</p>
+            </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
-  <div>
-    <h1 className="text-5xl font-bold text-yellow">{currentBlog.heading}</h1>
-    <p className="text-3xl mt-2">{currentBlog.subheading}</p>
-    <p className="mt-4 text-2xl">{currentBlog.descriptions}</p>
-  </div>
+          
 
-  {currentBlog.link && (
-    <a
-      href={currentBlog.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block mt-4 text-yellow/40 hover:underline"
-    >
-      View More
-    </a>
-  )}
-</div>
+            {currentBlog.link && (
+              <a
+                href={currentBlog.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block mt-4 text-yellow/40 hover:underline"
+              >
+                View More
+              </a>
+            )}
+          </div>
         </div>
       </div>
       <Footer />
     </div>
-    </>
-    
   );
 }
 
