@@ -16,6 +16,8 @@ import AdminHome from './pages/admin/AdminHome';
 import RefrshHandler from '../RefrshHandler';
 import BlogPage from './pages/BlogPage';
 import Forms from './pages/admin/Forms'
+
+import ScrollToTop from './components/ScrollToTop';
 function App() {
   const location = useLocation();
   const isLoginOrAdminRoute = 
@@ -33,7 +35,9 @@ function App() {
     <div className="w-full h-screen">
       {!isLoginOrAdminRoute && <Navbar />}
       <RefrshHandler setIsAuthenticated={setIsAuthenticated} />
+      <ScrollToTop/>
       <Routes>
+    
         {/* Public Routes */}
         
         <Route path="/" element={<Home />} />
