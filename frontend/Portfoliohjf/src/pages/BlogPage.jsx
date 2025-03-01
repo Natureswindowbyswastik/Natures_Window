@@ -68,23 +68,23 @@ function BlogPage() {
         </div>
       </div>
 
-      <div className="justify-center items-center flex">
+      <div className="justify-center items-center flex ">
         <p className="text-6xl border-b-2 text-left w-[85%] flex text-yellow font-bold">Stories</p>
       </div>
 
       <div className="flex md:flex-row flex-col justify-center items-center gap-10  ">
-        <div className="w-[90%] h-full flex flex-col md:flex-row lg:flex-row justify-between  lg:gap-20 md:gap-6 ">
+        <div className="w-[90%] h-full flex flex-col md:flex-col lg:flex-row justify-between   lg:gap-20 md:gap-6 ">
 
-          <div className=" w-full md:w-1/2 lg:w-1/4 p-4 overflow-x-auto md:overflow-x-auto lg:overflow-y-auto lg:h-[800px] lg:max-h-[800px] md:h-[400px] md:max-h-[400px]">
+          <div className=" w-full md:w-full lg:w-1/4 p-4 overflow-x-auto md:overflow-x-auto lg:overflow-y-auto lg:h-[800px] lg:max-h-[800px] md:h-[400px] md:max-h-[400px]">
             {blogs.length === 0 && !loading ? (
               <p className="text-xl">No blogs available</p>
             ) : (
-              <div className="flex flex-row md:flex-row lg:flex-col gap-4 w-full md:w-full lg:w-full">
+              <div className="flex flex-row md:flex-row lg:flex-col gap-4 w-[50%] md:w-full lg:w-full">
                 {blogs.slice(0, 6).map((blog) => (
                   <div
                     key={blog._id}
                     onClick={() => setCurrentBlog(blog)}
-                    className={`p-4 rounded-lg cursor-pointer text-white flex-none w-[350px] md:w-[300px] lg:w-full ${
+                    className={`p-4 rounded-lg cursor-pointer text-white flex-none w-[100px] md:w-[300px] lg:w-full ${
                       currentBlog?._id === blog._id ? "bg-white/10" : ""
                     } transition-all`}
                   >
@@ -105,7 +105,7 @@ function BlogPage() {
           </div>
 
         
-          <div className="w-full md:w-1/2 lg:w-3/4 p-6 rounded-lg flex flex-col gap-4">
+          <div className="w-full md:w-full lg:w-3/4 p-6 rounded-lg flex flex-col gap-4">
          
             {currentBlog?.images?.length > 0 && (
               <div>
@@ -114,7 +114,7 @@ function BlogPage() {
                     <div>
                     <img
                       src={image}
-                      className="w-full md:h-[90vh] object-cover rounded-lg"
+                      className="w-full lg:h-[80vh] md:h-[50vh] object-cover rounded-lg"
                       loading="lazy"
                     />
                     </div>
