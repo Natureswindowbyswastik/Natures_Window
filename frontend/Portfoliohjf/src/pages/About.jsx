@@ -82,13 +82,13 @@ useEffect(()=>{
             <img
               src="https://res.cloudinary.com/dj010hm7j/image/upload/v1738838497/DSC_3336_irxwkp.jpg"
               alt=""
-               data-aos="fade-down"
+             
               className="w-full h-screen flex object-cover" 
             />
             <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-black/100"></div>
           </div>
           <div className="absolute flex flex-row justify-evenly h-fit w-full top-1/2 md:top-1/3">
-            <div className="p-4 w-[60%] md:p-10 rounded-md text-center" data-aos="fade-up">
+            <div className="p-4 w-[60%] md:p-10 rounded-md text-center" >
               <p className="text-5xl text-left">Hello</p>
               <h1 className="text-4xl md:text-8xl font-bold">
                 I'm <span className="text-yellow">Swastik Sharma</span>
@@ -130,7 +130,7 @@ useEffect(()=>{
                 <img
                   src="https://res.cloudinary.com/dj010hm7j/image/upload/v1739257707/IMG_8901_j7tp5n.jpg"
                   alt=""
-                   data-aos="fade-right"
+                   data-aos="fade-down"
                   className="flex object-cover rounded-md" 
                 />
               </div>
@@ -140,7 +140,7 @@ useEffect(()=>{
 
         {/* Contact Section */}
         <div className="w-full full">
-          <div className="justify-center items-center flex" data-aos="fade-left">
+          <div className="justify-center items-center flex" data-aos="fade-up">
             <p className="text-6xl border-b-2 text-left w-[85%] flex text-yellow font-bold">
               Contact
             </p>
@@ -227,7 +227,7 @@ useEffect(()=>{
                   </button>
                 </form>
               </div>
-              <div className="justify-center items-center flex w-full" data-aos="fade-left">
+              <div className="justify-center items-center flex w-full" data-aos="fade-right">
                 <InstagramEmbed
                   url="https://www.instagram.com/natureswindowbyswastik/?utm_source=ig_web_button_share_sheet"
                   className="w-full p-6"
@@ -241,7 +241,7 @@ useEffect(()=>{
             <img
               src="https://res.cloudinary.com/dj010hm7j/image/upload/v1737966941/DSC_4037_qipg2v.jpg"
               alt=""
-              className="object-center " data-aos="fade-left"
+              className="object-center " data-aos="fade-right"
             />
             <div className="absolute inset-0 bg-gradient-to-b bg-black/50"></div>
             <div className="absolute inset-0 flex flex-col justify-center items-center text-yellow">
