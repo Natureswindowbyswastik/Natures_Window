@@ -54,11 +54,11 @@ function Blog() {
               <p className="text-xl">No blogs available</p>
             </div>
           ) : (
-            <div className="flex flex-wrap justify-center gap-6 p-6 border">
+            <div className="flex flex-wrap justify-center gap-6 p-6 ">
               {blog.map((blogs) => (
                 <div
                   key={blogs._id}
-                  className="h-fit md:h-[350px] md:w-[400px] bg-white/20 rounded-lg overflow-hidden shadow-lg border "
+                  className="h-fit md:h-[350px] md:w-[400px] bg-white/20 rounded-lg overflow-hidden shadow-lg  "
                 >
                   {/* Display Single Image */}
                   <div>
