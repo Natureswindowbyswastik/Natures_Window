@@ -24,7 +24,7 @@ function Home() {
   useEffect(() => {
     const fetchFeaturedImages = async () => {
       try {
-        console.log("API URL:",  import.meta.env.VITE_REACT_APP_API_URL);
+    
 
         const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/featured`);
         if (response.data.success) {

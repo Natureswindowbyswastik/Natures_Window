@@ -99,7 +99,7 @@ useEffect(()=>{
         </div>
 
         {/* About Page */}
-        <div className="w-full h-screen">
+        <div className="w-full h-full">
           <div className="justify-center items-center flex">
             <p className="text-6xl border-b-2 text-left w-[85%] flex text-yellow font-bold">
               About me
