@@ -118,8 +118,8 @@ function Home() {
                     className="sliderimg group imagechange"
                   >
                     <h1 className="relative h-40 font-bold text-2xl px-4 py-2 group-hover:text-yellow transform duration-300 ease-in-out">
-                      <span className="absolute inset-0 translate-y-[-100%] bg-black group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></span>
-                      <p className="textchange relative z-10 text-3xl text-center text-shadow">
+                      <span className="absolute inset-0 translate-y-[-100%] bg-black group-hover:translate-y-0 transition-transform duration-500 ease-in-out md:block hidden"></span>
+                      <p className="textchange relative z-10 md:text-3xl text-xl text-center ">
                         {item.name} <br />{" "}
                         <span className="text-sm">{item.location}</span>
                       </p>

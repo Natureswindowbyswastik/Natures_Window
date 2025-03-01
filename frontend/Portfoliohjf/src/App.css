@@ -22,10 +22,6 @@ font-family: "SF-Pro-Display-Light",sans-serif;
 }
 
 
- .textchange{
- 
-  text-shadow:2px  2px 1px #000000;
- }
  .gallery {
   display: grid;
   grid-gap: 10px;
