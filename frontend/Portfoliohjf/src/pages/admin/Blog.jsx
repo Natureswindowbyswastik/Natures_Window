@@ -58,23 +58,23 @@ function Blog() {
               {blog.map((blogs) => (
                 <div
                   key={blogs._id}
-                  className="w-full h-[350px] md:w-[400px] bg-white/20 rounded-lg overflow-hidden shadow-lg border"
+                  className="h-fit md:h-[350px] md:w-[400px] bg-white/20 rounded-lg overflow-hidden shadow-lg border "
                 >
                   {/* Display Single Image */}
                   <div>
                     <img
                       src={blogs.images?.[0] || "https://via.placeholder.com/400x256"} // Use the first image or a placeholder
                       alt={blogs.heading}
-                      className="w-full h-64 object-cover"
+                      className="w-full md:h-64 object-cover"
                     />
                   </div>
 
-                  <div className="p-4 bg-white/10 flex flex-row justify-between">
+                  <div className="p-4 bg-white/10 flex md:flex-row flex-col justify-between">
                     <div>
-                      <p className="text-2xl uppercase font-bold">{blogs.heading}</p>
-                      <p className="text-xl">{blogs.subheading}</p>
+                      <p className="md:text-2xl text-sm uppercase font-bold">{blogs.heading}</p>
+                      <p className="md:text-xl text-sm">{blogs.subheading}</p>
                     </div>
-                    <div className="flex flex-col text-2xl gap-2">
+                    <div className="flex md:flex-col text-2xl gap-2">
                       <button onClick={() => { setCurrentBlog(blogs); setShowEditBlog(true); }}>
                         <FaEdit />
                       </button>
