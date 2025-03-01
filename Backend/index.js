@@ -9,7 +9,7 @@ const allowedOrigins = [
     "https://natures-window.vercel.app", // Add your frontend URL
     "http://localhost:5173", // Local development URL
     "https://natures-window-l8b11f1ou-swastik-sharmas-projects-8c9f418a.vercel.app" ,
-    "https://www.natureswindowbyswastik.com/"
+    "https://www.natureswindowbyswastik.com"
   ];
   
   // CORS middleware
