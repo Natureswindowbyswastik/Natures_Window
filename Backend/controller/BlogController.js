@@ -48,7 +48,7 @@ const displayBlog = async(req,res)=>{
 const editBlog = async (req,res)=>{
     try {
         const {_id} = req.params;
-        console.log(_id);
+      
         const blog = await BlogModel.findById(_id);
 
         if(!blog){
@@ -59,7 +59,7 @@ const editBlog = async (req,res)=>{
         blog.subheading = req.body.subheading || blog.subheading;
         blog.descriptions = req.body.descriptions || blog.descriptions;
         blog.link = req.body.link || blog.link;
-
+     
    // Update the image if a new one is uploaded
    if (req.file) {
     blog.images = req.file.path; 

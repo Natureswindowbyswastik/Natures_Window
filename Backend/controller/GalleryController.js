@@ -3,8 +3,8 @@ const cloudinary = require('../utils/Cloudinary')
 const addImage = async (req, res) => {
     try {
         const { name, location, feature,link } = req.body;
-
-        // Check if a file was uploaded
+        console.log(req.body)
+      
         if (!req.file) {
             return res.status(400).json({
                 message: "No image file uploaded",
@@ -74,12 +74,11 @@ const editGallery = async (req, res) => {
         if (!gallery) {
             return res.status(400).json({ message: "Gallery not found" });
         }
-
-      
         gallery.name = req.body.name || gallery.name;
         gallery.location = req.body.location || gallery.location;
         gallery.feature = req.body.feature || gallery.feature;
         gallery.link = req.body.link || gallery.link;
+        console.log(gallery.link)
         if (req.file) {
             const {   path: url, filename: public_id } = req.file;
             gallery.images = [{ url, public_id }];

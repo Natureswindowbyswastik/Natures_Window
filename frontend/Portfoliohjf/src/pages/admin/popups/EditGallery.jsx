@@ -3,12 +3,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../../components/Button';
 import axios from 'axios';
+
 function EditGallery({showEditGallery,setShowEditGallery,currentGallery}) {
     const [formData,setFormData]= useState({
         name:'',
         location:'',
         image:'',
         feature:'',
+        link:'',
     })
 
     const [file,setFile] = useState(null);
@@ -20,7 +22,8 @@ function EditGallery({showEditGallery,setShowEditGallery,currentGallery}) {
           name: currentGallery.name,
           location: currentGallery.location,
           image: currentGallery.image,
-          feature:currentGallery.feature
+          feature:currentGallery.feature,
+          link:currentGallery.link
         })
       }
     },[currentGallery])
@@ -47,6 +50,7 @@ function EditGallery({showEditGallery,setShowEditGallery,currentGallery}) {
       updatedFormData.append('name',formData.name);
       updatedFormData.append('location', formData.location);
       updatedFormData.append('feature',formData.feature)
+      updatedFormData.append('link',formData.link)
       
       if(file){
         updatedFormData.append('image',file);
@@ -74,7 +78,7 @@ function EditGallery({showEditGallery,setShowEditGallery,currentGallery}) {
        <div className='fixed inset-0 z-50 flex flex-col gap-10 items-center justify-center bg-grey/80'>
       
        <div className='bg-white rounded-md shadow-2xl p-8 w-96  text-black'>
-       <p className='text-center font-bold text-yellow text-2xl'>Add Images</p>
+       <p className='text-center font-bold text-yellow text-2xl'>Edit Images</p>
      
        <form  onSubmit={handleSubmit} className='flex flex-col gap-6'>
            <div className='flex flex-col  font-bold'>
@@ -94,6 +98,16 @@ function EditGallery({showEditGallery,setShowEditGallery,currentGallery}) {
                    onChange={handleChange}
                    className=' bg-grey/30 rounded-md p-2' />
            </div>
+           <div className="flex flex-col font-bold">
+                <label>Link (Optional)</label>
+                <input
+                type='text'
+                  name="link"
+                  value={formData.link}
+                  onChange={handleChange}
+                  className="bg-grey/20 rounded-md p-2"
+                />
+              </div>
            <div className='flex flex-col  font-bold'>
            {formData.image && (
                   <img
@@ -120,6 +134,7 @@ function EditGallery({showEditGallery,setShowEditGallery,currentGallery}) {
                   <option value={true}>Yes</option>
                 </select>
               </div>
+           
            <div className='flex flex-row justify-between'>
                <Button isPrimary text="Upload" type="submit" />
                <Button text="Cancel"  onClick={() =>{

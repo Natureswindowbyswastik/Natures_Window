@@ -94,6 +94,7 @@ function Collection() {
               <h1 className="text-xl font-bold">{image.name}</h1>
               <h3 className="text-lg">{image.location}</h3>
             </div>
+            
           </div>
           ))
         )}
@@ -139,6 +140,16 @@ function Collection() {
                 <div className=" text-white">
                   <span className="font-semibold text-xl ">{selectedImage.name}</span>
                 </div>
+                {selectedImage.link && (
+              <a
+                href={selectedImage.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block mt-4 text-yellow/40 hover:underline"
+              >
+                By HD photograph 
+              </a>
+            )}
               </div>
             </motion.div>
           </motion.div>

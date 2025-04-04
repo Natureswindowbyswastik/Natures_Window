@@ -10,6 +10,7 @@ function AddGallery({showAddGallery,setShowAddGallery}) {
         name:"",
         location:"",
         image:null,
+        link:"",
         feature:false,
     })
     const handlechange = (e)=>{
@@ -38,6 +39,7 @@ function AddGallery({showAddGallery,setShowAddGallery}) {
         form.append("location",formData.location);
         form.append("image",formData.image);
         form.append("feature",formData.feature)
+        form.append("link",formData.link)
 
         try {
             await axios.post (`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/addimage`,form,{
@@ -79,6 +81,17 @@ function AddGallery({showAddGallery,setShowAddGallery}) {
                     onChange={handlechange}
                     className=' bg-grey/30 rounded-md p-2' required/>
             </div>
+            <div className="flex flex-col font-bold">
+                <label htmlFor="">Link</label>
+                <input
+                  type="text"
+                  name="link"
+                    value={formData.link}
+                  onChange={handlechange}
+                  className="bg-grey/30 rounded-md p-2"
+              
+                />
+              </div>
             <div className='flex flex-col  font-bold'>
                 <label htmlFor="">Image</label>
                 <input type="file" 
@@ -86,6 +99,7 @@ function AddGallery({showAddGallery,setShowAddGallery}) {
                      onChange={handlechangeImage}
                 className='' />
             </div>
+          
             <div className="flex flex-col font-bold">
                 <label htmlFor="feature">Featured</label>
                 <select
