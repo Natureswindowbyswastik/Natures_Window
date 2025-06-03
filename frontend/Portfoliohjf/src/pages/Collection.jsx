@@ -147,7 +147,7 @@ function Collection() {
                 rel="noopener noreferrer"
                 className="block mt-4 text-yellow/40 hover:underline"
               >
-                By HD photograph 
+                 Explore More 
               </a>
             )}
               </div>

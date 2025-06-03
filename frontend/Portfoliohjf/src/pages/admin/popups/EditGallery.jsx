@@ -23,7 +23,7 @@ function EditGallery({showEditGallery,setShowEditGallery,currentGallery}) {
           location: currentGallery.location,
           image: currentGallery.image,
           feature:currentGallery.feature,
-          link:currentGallery.link
+          link:currentGallery.link || '',
         })
       }
     },[currentGallery])

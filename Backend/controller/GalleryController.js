@@ -89,7 +89,7 @@ const editGallery = async (req, res) => {
         res.status(200).json({
             message: "Gallery updated successfully",
             success: true,
-            gallery
+            gallery:gallery
         });
 
     } catch (error) {
