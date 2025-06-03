@@ -6,7 +6,7 @@ const {uploadBlog} = require('../Middleware/Multer')
 
 router.post('/addblog', uploadBlog.single('images'),addBlog);
 router.get('/showblog',displayBlog);
-router.post('/editblog/:_id',uploadBlog.single('images'),editBlog);
+router.put('/editblog/:_id',uploadBlog.single('images'),editBlog);
 router.delete('/deleteblog/:_id',deleteBlog);
 
 module.exports=router;

@@ -49,7 +49,7 @@ function EditBlog({ showEditBlog, setShowEditBlog, currentBlog }) {
     files.forEach((file) => updatedFormData.append('images', file)); // Append multiple images
 
     try {
-      await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/blog/editblog/${currentBlog._id}`, updatedFormData, {
+      await axios.put(`${import.meta.env.VITE_REACT_APP_API_URL}/blog/editblog/${currentBlog._id}`, updatedFormData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

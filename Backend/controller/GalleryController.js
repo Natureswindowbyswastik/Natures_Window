@@ -77,8 +77,9 @@ const editGallery = async (req, res) => {
         gallery.name = req.body.name || gallery.name;
         gallery.location = req.body.location || gallery.location;
         gallery.feature = req.body.feature || gallery.feature;
-        gallery.link = req.body.link || gallery.link;
-        console.log(gallery.link)
+           if (req.body.link !== undefined) {
+            gallery.link = req.body.link;
+        }
         if (req.file) {
             const {   path: url, filename: public_id } = req.file;
             gallery.images = [{ url, public_id }];

@@ -58,7 +58,10 @@ const editBlog = async (req,res)=>{
         blog.heading= req.body.heading || blog.heading;
         blog.subheading = req.body.subheading || blog.subheading;
         blog.descriptions = req.body.descriptions || blog.descriptions;
-        blog.link = req.body.link || blog.link;
+        
+         if (req.body.link !== undefined) {
+            blog.link = req.body.link;
+        }
      
    // Update the image if a new one is uploaded
    if (req.file) {
