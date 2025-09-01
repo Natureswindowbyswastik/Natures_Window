@@ -109,17 +109,11 @@ useEffect(()=>{
             <div className="flex md:flex-col lg:flex-row flex-col-reverse justify-around w-[90%] items-center">
               <div className="flex-[0.4] flex flex-col gap-4 text-justify" data-aos="fade-up">
                 <h1 className="md:text-2xl text-xs">
-                  Through my lens, I strive to capture the fleeting beauty and
-                  raw emotion of the wild. In the stillness of a forest, the
-                  quiet observation of a hidden creature – these are the moments
-                  I live for. I'm Swastik, a wildlife photographer in Dehradun,
-                  Uttarakhand, and I use my Nikon D7200 to freeze these
-                  precious instants in time. My journey started with my mother's
-                  Sony Ericsson Xperia and really took off when my father gifted
-                  me a Sony Cybershot DSC-HX10V at 14. Now, every click of the
-                  shutter is a chance to share the beauty and vulnerability of
-                  the natural world, hoping to inspire others to appreciate the
-                  wild spaces that share our planet.
+                 Through my lens, I strive to capture the fleeting beauty and raw emotion of the wild.
+                  In the stillness of a forest, the quiet observation of a hidden creature – these are the moments I live for.
+                   I'm Swastik, a wildlife photographer in Dehradun, Uttarakhand, and I use my Sony A6700 & Nikon D7200 to freeze these precious instants in time. 
+                   My journey started with my mother's Sony Ericsson Xperia and really took off when my father gifted me a Sony Cybershot DSC-HX10V at 14. Now, every click of the shutter is a chance to share the beauty and vulnerability of the natural world, hoping to inspire others to appreciate the wild spaces that share our planet.
+
                 </h1>
                 <h1 className="text-2xl font-bold">
                   I'm always open to collaborations and new projects – let's

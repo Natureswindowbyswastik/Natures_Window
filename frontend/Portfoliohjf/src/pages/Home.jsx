@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import { FEATURED_IMAGES } from "../constants/Constants";
 function Home() {
 
   useEffect(() => {
@@ -21,28 +21,16 @@ function Home() {
   const [error, setError] = useState(null);
 
   // Fetch featured images from the backend
-  useEffect(() => {
-    const fetchFeaturedImages = async () => {
-      try {
-    
-
-        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/featured`);
-        if (response.data.success) {
-          setFeaturedImages(response.data.featuredImage); // Set the featured images
-          if (response.data.featuredImage.length > 0) {
-            setSelectedImage(response.data.featuredImage[0].images[0]?.url); // Set the first featured image as default
-          }
-        } else {
-          throw new Error("Failed to fetch featured images");
-        }
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchFeaturedImages();
+ useEffect(() => {
+    setFeaturedImages(FEATURED_IMAGES);
+    setSelectedImage(FEATURED_IMAGES[0].images[0].url); // Set first image by default
   }, []);
+
+  // ✅ Handle image hover
+  const handleHoverImage = (imageUrl) => {
+    setSelectedImage(imageUrl);
+  };
+
   useEffect(() => {
     const fetchGallery = async () => {
       setLoading(true);
@@ -60,10 +48,6 @@ function Home() {
   }, []);
   
 
-
-  const handleHoverImage = (imageUrl) => {
-    setSelectedImage(imageUrl);
-  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;

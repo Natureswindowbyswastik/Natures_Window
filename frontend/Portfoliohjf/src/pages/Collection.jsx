@@ -1,5 +1,4 @@
 import React, { useState,useEffect } from "react";
-import { collection } from "../constants/Constants";
 import Footer from "../components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaHeart, FaRegHeart, FaComment } from "react-icons/fa";

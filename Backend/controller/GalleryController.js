@@ -46,7 +46,7 @@ const addImage = async (req, res) => {
 
 const displayGallery = async(req, res)=>{
     try {
-        const gallery = await GalleryModel.find();
+        const gallery = await GalleryModel.find().sort({ _id: -1 }); ;
         if(gallery.length==0){
             return res.status(404)
             .json({message:"No images"})
