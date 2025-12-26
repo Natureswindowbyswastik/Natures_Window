@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 
 function BlogPage() {
   const [blogs, setBlogs] = useState([]);
@@ -21,7 +22,7 @@ function BlogPage() {
         const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/blog/showblog`);
         setBlogs(response.data.blog);
         if (response.data.blog.length > 0) {
-          setCurrentBlog(response.data.blog[0]); // Set first blog as default
+          setCurrentBlog(response.data.blog[0]); 
         }
       } catch (error) {
         setError(error.message);
@@ -36,19 +37,11 @@ function BlogPage() {
     AOS.init({ duration: 1200 });
   }, []);
 
-  const carouselSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    autoplay: false,
-  };
-
+  
   return (
-    <div className="h-full">
-   
+    <>
+    <section>
+
       <div className="relative w-full h-[100vh] flex justify-center items-center overflow-x-hidden">
         <img
           src="https://res.cloudinary.com/dj010hm7j/image/upload/v1740675154/dynamic/cpyuw83b2nxfr7djlfdz.jpg"
@@ -67,86 +60,73 @@ function BlogPage() {
           </p>
         </div>
       </div>
+    </section>
 
+    <section className="h-screen ">
       <div className="justify-center items-center flex ">
         <p className="text-6xl border-b-2 text-left w-[85%] flex text-yellow font-bold">Stories</p>
       </div>
 
-      <div className="flex md:flex-row flex-col justify-center items-center gap-10  ">
-        <div className="w-[90%] h-full flex flex-col md:flex-col lg:flex-row justify-between   lg:gap-20 md:gap-6 ">
+  <div className="flex justify-center items-center w-full">
+  <div className="w-[90%] p-4">
 
-          <div className=" w-full md:w-full lg:w-1/4 p-4 overflow-x-auto md:overflow-x-auto lg:overflow-y-auto lg:h-[800px] lg:max-h-[800px] md:h-[400px] md:max-h-[400px]">
-            {blogs.length === 0 && !loading ? (
-              <p className="text-xl">No blogs available</p>
-            ) : (
-              <div className="flex flex-row md:flex-row lg:flex-col gap-4 w-[50%] md:w-full lg:w-full">
-                {blogs.slice(0, 6).map((blog) => (
-                  <div
-                    key={blog._id}
-                    onClick={() => setCurrentBlog(blog)}
-                    className={`p-4 rounded-lg cursor-pointer text-white flex-none w-[100px] md:w-[300px] lg:w-full ${
-                      currentBlog?._id === blog._id ? "bg-white/10" : ""
-                    } transition-all`}
-                  >
-                    {blog.images?.length > 0 && (
-                      <img
-                        src={blog.images[0]}
-                        alt={blog.heading}
-                        className="w-full object-cover rounded-lg mb-2"
-                        loading="lazy"
-                      />
-                    )}
-                    <p className="text-xl font-bold truncate text-yellow">{blog.heading}</p>
-                    <p className="text-sm truncate">{blog.subheading}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+    {blogs.length === 0 && !loading ? (
+      <p className="text-xl text-center">No blogs available</p>
+    ) : (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-        
-          <div className="w-full md:w-full lg:w-3/4 p-6 rounded-lg flex flex-col gap-4">
-         
-            {currentBlog?.images?.length > 0 && (
-              <div>
-                {currentBlog.images.map((image, index) => (
-                  <div key={index} className=" md:h-full flex flex-col gap-4 ">
-                    <div>
-                    <img
-                      src={image}
-                      className="w-full lg:h-[80vh] md:h-[50vh] object-cover rounded-lg"
-                      loading="lazy"
-                    />
-                    </div>
-                   
-                      <div>
-              <h1 className="md:text-5xl text-3xl font-bold text-yellow">{currentBlog.heading}</h1>
-              <p className="md:text-3xl text-xl mt-2">{currentBlog.subheading}</p>
-              <p className="mt-4 md:text-2xl">{currentBlog.descriptions}</p>
-              
-            {currentBlog.link && (
-              <a
-                href={currentBlog.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block mt-4 text-yellow/40 hover:underline"
-              >
-                View More
-              </a>
-            )}
+        {blogs.map((blog) => (
+          <div
+            key={blog._id}
+            className="group  overflow-hidden  
+                       hover:shadow-xl hover:-translate-y-1 transition-all duration-300  "
+          >
+            <div className="w-full h-56 overflow-hidden relative">
+              <img
+                src={blog.images}
+                alt={blog.heading}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <p className="text-2xl font-bold line-clamp-2 absolute  text-yellow    w-fit h-fit bottom-0 left-0 pr-5 py-1 text-left flex  bg-black  ">
+                {blog.heading}
+              </p>
+
             </div>
-                  </div>
-                ))}
+     
+            <div className=" flex flex-col gap-3 mt-2">
+              
+              <p className="uppercase  text-xs tracking-widest text-gray-500 font-semibold">
+                {blog.subheading}
+              </p>
+
+              <p className="text-sm text-gray-600 line-clamp-3">
+                {blog.descriptions}
+              </p>
+
+
+              <div className="mt-4">
+               <Link
+  to={`/blog/${blog._id}`}
+  state={{ blog }}
+  className="flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
+>
+  Read more →
+</Link>
               </div>
-            )}
-
-          
-
+            </div>
           </div>
-        </div>
+        ))}
+
       </div>
-      <Footer />
-    </div>
+    )}
+  </div>
+
+        </div>
+   
+    </section>
+   
+    </>
+   
   );
 }
 

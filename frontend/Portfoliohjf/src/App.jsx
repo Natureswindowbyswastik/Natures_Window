@@ -16,8 +16,10 @@ import AdminHome from './pages/admin/AdminHome';
 import RefrshHandler from '../RefrshHandler';
 import BlogPage from './pages/BlogPage';
 import Forms from './pages/admin/Forms'
+import BlogDetail from './pages/BlogDetail';
 
 import ScrollToTop from './components/ScrollToTop';
+
 function App() {
   const location = useLocation();
   const isLoginOrAdminRoute = 
@@ -44,6 +46,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/blog" element={<BlogPage/>} />
+        <Route path="/blog/:id" element={<BlogDetail/>}/>
         <Route path="/login" element={<Login />} />
 
         {/* Private Admin Routes */}
@@ -56,6 +59,7 @@ function App() {
           <Route path="admin-form" element={<Forms/>} />
         </Route>
       </Routes>
+         <Footer />
     </div>
   );
 }

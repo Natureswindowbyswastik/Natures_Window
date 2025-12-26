@@ -117,6 +117,7 @@ function Collection() {
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
               transition={{ duration: 0.4 }}
+              viewport={{once:true}}
             >
               <div className="text-left flex flex-col   text-black ">
                 <div className="flex items-center gap-1 ">
@@ -154,7 +155,7 @@ function Collection() {
           </motion.div>
         )}
       </AnimatePresence>
-      <Footer />
+
     </>
   );
 }
