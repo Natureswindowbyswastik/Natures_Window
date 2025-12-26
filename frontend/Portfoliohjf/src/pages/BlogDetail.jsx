@@ -1,17 +1,48 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function BlogDetail() {
-  const { state } = useLocation();
+  const { slug } = useParams();
   const navigate = useNavigate();
-  const blog = state?.blog;
+  const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_REACT_APP_API_URL}/blog/slug/${slug}`
+        );
+        setBlog(res.data);
+  
+        console.log(res.data)
+      } catch (err) {
+        console.error(err);
+        setBlog(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlog();
+  }, [slug]);
+  
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center pt-24">
+        <p className="text-xl">Loading...</p>
+      </div>
+    );
+  }
 
   if (!blog) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center gap-4 pt-24">
-        <p className="text-xl">No blog data found.</p>
+        <p className="text-xl">Blog not found.</p>
         <button
-          onClick={() => navigate("/blogs")}
+          onClick={() => navigate("/blog")}
           className="px-4 py-2 bg-indigo-600 text-white rounded-lg"
         >
           Go back
@@ -21,9 +52,13 @@ function BlogDetail() {
   }
 
   return (
-    <section className="min-h-screen pt-24 bg-gray-50">
-      {/* pt-24 pushes content below navbar */}
-
+    <section className="m-h-screen pt-24 bg-gray-50">
+      <button
+          onClick={() => navigate("/blogs")}
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg"
+        >
+          Go back
+        </button>
       <div className="max-w-5xl mx-auto p-6">
         <img
           src={blog.images}

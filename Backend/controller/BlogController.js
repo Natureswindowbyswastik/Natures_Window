@@ -45,6 +45,20 @@ const displayBlog = async(req,res)=>{
         })
     }
 }
+const getBlogBySlug = async(req,res)=>{
+ try {
+    const blog = await BlogModel.findOne({
+        slug:req.params.slug
+    })
+      if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    res.json(blog);
+ } catch (error) {
+     res.status(500).json({ message: error.message });
+ }
+}
+
 const editBlog = async (req,res)=>{
     try {
         const {_id} = req.params;
@@ -105,4 +119,4 @@ const deleteBlog = async(req,res)=>{
         .json({ message: "Internal error", success: false, error: error.message });
     }
 }
-module.exports = {addBlog,displayBlog,editBlog,deleteBlog};
+module.exports = {addBlog,displayBlog,editBlog,deleteBlog, getBlogBySlug};

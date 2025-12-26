@@ -18,9 +18,14 @@ const BlogSchema = new mongoose.Schema({
         required: true
       },
       link: {
-        type: String, // Accepts any URL
-        required: false // Link is optional
-      }
+        type: String, 
+        required: false    
+         },
+         slug: { 
+          type: String, 
+          unique: true
+        }
+
     });
     const BlogModel = mongoose.model("Blog", BlogSchema);
     module.exports = BlogModel;

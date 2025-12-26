@@ -46,7 +46,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/blog" element={<BlogPage/>} />
-        <Route path="/blog/:id" element={<BlogDetail/>}/>
+        <Route path="blog/:slug" element={<BlogDetail/>}/>
         <Route path="/login" element={<Login />} />
 
         {/* Private Admin Routes */}

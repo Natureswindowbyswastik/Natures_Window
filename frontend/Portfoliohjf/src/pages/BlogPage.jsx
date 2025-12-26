@@ -106,8 +106,7 @@ function BlogPage() {
 
               <div className="mt-4">
                <Link
-  to={`/blog/${blog._id}`}
-  state={{ blog }}
+  to={`/blog/${blog.slug}`}
   className="flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
 >
   Read more →
