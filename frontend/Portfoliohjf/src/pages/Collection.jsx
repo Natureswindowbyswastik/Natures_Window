@@ -7,6 +7,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
 function Collection() {
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -38,12 +39,12 @@ function Collection() {
           {/* Background Image */}
           <div className="relative flex justify-center items-center w-full h-full" >
             <img
-              src="https://res.cloudinary.com/dj010hm7j/image/upload/v1740656105/dynamic/ncew2yoioznjckoegviu.jpg"
+              src="https://res.cloudinary.com/dj010hm7j/image/upload/v1768226412/sunset_pdkrau.jpg"
               alt="Nature"
               className="absolute w-full h-full object-cover "  data-aos="fade-right"
             />
             {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/100"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/80"></div>
             {/* Text Content */}
             <div className="absolute flex justify-center items-center px-4 w-full">
               <div className="text-white p-6 md:p-10 rounded-md text-center flex flex-col md:w-[60%]" data-aos="fade-up">

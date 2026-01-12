@@ -50,7 +50,7 @@ function BlogPage() {
       <section>
         <div className="relative w-full h-[100vh] flex justify-center items-center overflow-x-hidden">
           <img
-            src="https://res.cloudinary.com/dj010hm7j/image/upload/v1740675154/dynamic/cpyuw83b2nxfr7djlfdz.jpg"
+            src="https://res.cloudinary.com/dj010hm7j/image/upload/v1737966313/DSC_0031_b1ini2.jpg"
             alt="Nature"
             data-aos="fade-down"
             className="absolute inset-0 w-full h-full object-cover"

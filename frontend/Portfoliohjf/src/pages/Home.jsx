@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { FEATURED_IMAGES } from "../constants/Constants";
+import homeimg from '../assets/images/IMG_1566.JPG'
+
 function Home() {
 
   useEffect(() => {
@@ -59,7 +61,7 @@ function Home() {
         <div className="">
           <div className="relative"  >
             <img
-              src="https://res.cloudinary.com/dj010hm7j/image/upload/v1737966313/DSC_0031_b1ini2.jpg"
+              src={homeimg}
               alt=""
           
               className="w-full h-screen flex object-cover"
