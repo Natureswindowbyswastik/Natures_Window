@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { FaHeart, FaComment } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { IoArrowBack } from "react-icons/io5";
+
+import { IoArrowBack as IoArrowBackIcon } from "react-icons/io5"; // Renamed for clarity
 import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 function Collection() {
   const [collections, setCollections] = useState([]);
-  const [activeCollection, setActiveCollection] = useState(null); // full collection object
+  const [activeCollection, setActiveCollection] = useState(null); 
   const [gallery, setGallery] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch all collections on mount
   useEffect(() => {
     const fetchCollections = async () => {
       try {
@@ -28,7 +28,6 @@ function Collection() {
     fetchCollections();
   }, []);
 
-  // Fetch images when a collection is selected
   const handleOpenCollection = async (col) => {
     setActiveCollection(col);
     setLoading(true);
@@ -51,8 +50,8 @@ function Collection() {
   };
 
   useEffect(() => {
-    AOS.init({ duration: "1200" });
-  });
+    AOS.init({ duration: 1200 });
+  }, []); // Added missing dependency array to prevent repeated initializations
 
   return (
     <>
@@ -89,7 +88,7 @@ function Collection() {
               <p className="text-xl text-white/60 mt-2">Where perspective shapes the unseen.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-[90%] shadow">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-[90%]">
               {collections.length === 0 ? (
                 <p className="text-white/40 col-span-3 text-center">No collections available.</p>
               ) : (
@@ -98,9 +97,8 @@ function Collection() {
                     key={col._id}
                     onClick={() => handleOpenCollection(col)}
                     data-aos="fade-up"
-                    className="relative h-72 rounded-2xl overflow-hidden cursor-pointer group shadow-sm"
+                    className="relative h-72 rounded-2xl overflow-hidden cursor-pointer group shadow-[0_4px_12px_rgba(0,0,0,0.03)]"
                   >
-                    {/* Cover image */}
                     {col.coverImage ? (
                       <img
                         src={col.coverImage}
@@ -113,18 +111,16 @@ function Collection() {
                       </div>
                     )}
 
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/60 to-black/60" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
 
-                    {/* Text overlay */}
-<div className="absolute inset-0 flex flex-col items-center justify-center p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300 text-center">
-  <p className="text-2xl font-bold text-yellow">{col.name}</p>
-  {col.description && (
-    <p className="text-sm text-white/70 mt-1  transition-opacity duration-30`0">
-      {col.description}
-    </p>
-  )}
-</div>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300 text-center">
+                      <p className="text-2xl font-bold text-yellow">{col.name}</p>
+                      {col.description && (
+                        <p className="text-sm text-white/70 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          {col.description}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 ))
               )}
@@ -132,16 +128,15 @@ function Collection() {
           </>
         )}
 
-        {/* ── COLLECTION IMAGES VIEW ── */}
+        {/* ── COLLECTION IMAGES VIEW (Optimized Masonry) ── */}
         {activeCollection && (
           <>
-            {/* Back button + collection title */}
             <div className="w-[90%] mb-8" data-aos="fade-right">
               <button
                 onClick={handleBack}
                 className="flex items-center gap-2 text-white/60 hover:text-white transition mb-4 text-sm"
               >
-                <IoArrowBack size={18} /> Back to collections
+                <IoArrowBackIcon size={18} /> Back to collections
               </button>
               <p className="text-4xl md:text-5xl font-bold text-yellow">{activeCollection.name}</p>
               {activeCollection.description && (
@@ -149,29 +144,33 @@ function Collection() {
               )}
             </div>
 
-            {/* Masonry image grid */}
-            <div className="gallery grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-[90%] cursor-pointer">
+            {/* CSS Columns Masonry Container */}
+            <div className="w-[90%] columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
               {loading ? (
-                <p className="col-span-4 text-center py-10 text-white/50">Loading...</p>
+                <p className="text-center py-10 text-white/50 w-full col-span-full">Loading...</p>
               ) : gallery.length === 0 ? (
-                <p className="col-span-4 text-center py-10 text-white/40">No images in this collection.</p>
+                <p className="text-center py-10 text-white/40 w-full col-span-full">No images in this collection.</p>
               ) : (
-                gallery.map((image, index) => (
+                gallery.map((image) => (
                   <div
                     key={image._id}
-                    className={`group relative overflow-hidden rounded-lg cursor-pointer transition-transform duration-500 ease-in-out
-                      ${index % 2 === 0 ? "row-span-2" : "row-span-1"}`}
+                    className="break-inside-avoid relative overflow-hidden rounded-lg cursor-pointer group bg-zinc-900"
                     onClick={() => setSelectedImage(image)}
-                    data-aos="fade-right"
+                    data-aos="fade-up"
                   >
                     <img
                       src={image.images[0]?.url}
                       alt={image.name}
-                      className="w-full h-full object-cover rounded-md transition-opacity duration-700 ease-in-out"
+                      className="w-full h-auto object-contain rounded-md display:block transition-transform duration-500 group-hover:scale-[1.02]"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
-                      <h1 className="text-xl font-bold">{image.name}</h1>
-                      <h3 className="text-lg">{image.location}</h3>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
+                      <h1 className="text-lg font-bold text-white">{image.name}</h1>
+                      {image.location && (
+                        <span className="text-sm text-white/80 flex items-center gap-1 mt-1">
+                          <FaLocationDot size={12} className="text-yellow" />
+                          {image.location}
+                        </span>
+                      )}
                     </div>
                   </div>
                 ))
@@ -185,57 +184,72 @@ function Collection() {
       <AnimatePresence>
         {selectedImage && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center z-10"
+            className="fixed inset-0 bg-black/95 flex flex-col justify-center items-center z-50 p-4"
             onClick={() => setSelectedImage(null)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="object-contain w-[auto] md:h-[90%] rounded-lg shadow-lg bg-black p-2"
-              initial={{ scale: 0.4 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true }}
+              className="relative max-w-4xl w-full max-h-[90vh] flex flex-col rounded-xl overflow-hidden bg-zinc-950 p-4 border border-white/10"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="text-left flex flex-col text-black">
-                <div className="flex items-center gap-1">
+              {/* Modal Header Context */}
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
+                <div className="flex items-center gap-3">
                   <img
                     src="https://res.cloudinary.com/dj010hm7j/image/upload/v1739257707/IMG_8901_j7tp5n.jpg"
-                    alt=""
-                    className="w-[40px] h-[40px] rounded-full"
+                    alt="Logo"
+                    className="w-10 h-10 rounded-full object-cover border border-yellow/50"
                   />
-                  <span className="text-2xl font-bold text-yellow">
-                    Nature's <span>Window</span>
-                  </span>
+                  <div>
+                    <h2 className="text-lg font-bold text-yellow flex items-center gap-1 leading-tight">
+                      Nature's <span>Window</span>
+                    </h2>
+                    {selectedImage.location && (
+                      <span className="text-xs flex items-center gap-1 text-white/60 mt-0.5">
+                        <FaLocationDot size={10} />
+                        {selectedImage.location}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <span className="text-sm flex items-center p-2 gap-3 text-white">
-                  <FaLocationDot />
-                  <span>{selectedImage.location}</span>
-                </span>
               </div>
-              <img
-                src={selectedImage.images[0]?.url}
-                alt=""
-                className="md:h-[75%] text-black w-full"
-              />
-              <div className="text-text-2xl p-2">
-                <div className="flex gap-4">
-                  <FaHeart className="text-red text-2xl" />
-                  <FaComment className="text-2xl text-gray-700" />
+
+              {/* Center Image Container - Preserves pure aspect ratio dynamically */}
+              <div className="flex-1 flex items-center justify-center overflow-hidden min-h-0">
+                <img
+                  src={selectedImage.images[0]?.url}
+                  alt={selectedImage.name}
+                  className="max-w-full max-h-[60vh] object-contain rounded"
+                />
+              </div>
+
+              {/* Modal Footer Controls */}
+              <div className="pt-3 mt-3 border-t border-white/10">
+                <div className="flex gap-4 mb-2">
+                  <button className="hover:scale-110 transition-transform">
+                    <FaHeart className="text-red-500 text-xl" />
+                  </button>
+                  <button className="hover:scale-110 transition-transform">
+                    <FaComment className="text-xl text-white/70 hover:text-white" />
+                  </button>
                 </div>
-                <div className="text-white">
-                  <span className="font-semibold text-xl">{selectedImage.name}</span>
+                <div>
+                  <span className="font-semibold text-lg text-white">{selectedImage.name}</span>
                 </div>
                 {selectedImage.link && (
                   <a
                     href={selectedImage.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block mt-4 text-yellow/40 hover:underline"
+                    className="inline-block mt-2 text-sm text-yellow/70 hover:text-yellow hover:underline transition"
                   >
-                    Explore More
+                    Explore More →
                   </a>
                 )}
               </div>
