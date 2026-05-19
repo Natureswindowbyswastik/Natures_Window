@@ -20,7 +20,16 @@ feature:{
 link: {
   type: String, 
   required: false 
-}
+},
+collectionId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "Collection",
+  default: null
+},
+orderIndex: {
+  type: Number,
+  default: 0
+},
 })
 
 const GalleryModel = mongoose.model("Gallery", GallerySchema);

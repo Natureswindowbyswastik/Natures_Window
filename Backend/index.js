@@ -29,13 +29,13 @@ const FormRouter = require("./routes/FormRouter");
 const GalleryRouter = require("./routes/GalleryRouter");
 const BlogRouter = require("./routes/BlogRouter");
 const AuthRouter = require("./routes/AuthRouter");
-
+const CollectionRouter = require('./routes/CollectionRouter')
 // Use routes
 app.use("/gallery", GalleryRouter);
 app.use("/blog", BlogRouter);
 app.use("/auth", AuthRouter);
 app.use("/form", FormRouter);
-
+app.use('/collection',CollectionRouter)
 const port = process.env.PORT || 3001; // Default to 3001 for local development
 app.listen(port, () => {
     console.log(`Server is running on Port ${port}`);
