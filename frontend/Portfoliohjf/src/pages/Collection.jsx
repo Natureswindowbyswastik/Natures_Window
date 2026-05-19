@@ -184,72 +184,57 @@ function Collection() {
       <AnimatePresence>
         {selectedImage && (
           <motion.div
-            className="fixed inset-0 bg-black/95 flex flex-col justify-center items-center z-50 p-4"
+            className="fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center z-10"
             onClick={() => setSelectedImage(null)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="relative max-w-4xl w-full max-h-[90vh] flex flex-col rounded-xl overflow-hidden bg-zinc-950 p-4 border border-white/10"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              onClick={(e) => e.stopPropagation()}
+              className="object-contain w-[auto] md:h-[90%] rounded-lg shadow-lg bg-black p-2"
+              initial={{ scale: 0.4 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true }}
             >
-              {/* Modal Header Context */}
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
-                <div className="flex items-center gap-3">
+              <div className="text-left flex flex-col text-black">
+                <div className="flex items-center gap-1">
                   <img
                     src="https://res.cloudinary.com/dj010hm7j/image/upload/v1739257707/IMG_8901_j7tp5n.jpg"
-                    alt="Logo"
-                    className="w-10 h-10 rounded-full object-cover border border-yellow/50"
+                    alt=""
+                    className="w-[40px] h-[40px] rounded-full"
                   />
-                  <div>
-                    <h2 className="text-lg font-bold text-yellow flex items-center gap-1 leading-tight">
-                      Nature's <span>Window</span>
-                    </h2>
-                    {selectedImage.location && (
-                      <span className="text-xs flex items-center gap-1 text-white/60 mt-0.5">
-                        <FaLocationDot size={10} />
-                        {selectedImage.location}
-                      </span>
-                    )}
-                  </div>
+                  <span className="text-2xl font-bold text-yellow">
+                    Nature's <span>Window</span>
+                  </span>
                 </div>
+                <span className="text-sm flex items-center p-2 gap-3 text-white">
+                  <FaLocationDot />
+                  <span>{selectedImage.location}</span>
+                </span>
               </div>
-
-              {/* Center Image Container - Preserves pure aspect ratio dynamically */}
-              <div className="flex-1 flex items-center justify-center overflow-hidden min-h-0">
-                <img
-                  src={selectedImage.images[0]?.url}
-                  alt={selectedImage.name}
-                  className="max-w-full max-h-[60vh] object-contain rounded"
-                />
-              </div>
-
-              {/* Modal Footer Controls */}
-              <div className="pt-3 mt-3 border-t border-white/10">
-                <div className="flex gap-4 mb-2">
-                  <button className="hover:scale-110 transition-transform">
-                    <FaHeart className="text-red-500 text-xl" />
-                  </button>
-                  <button className="hover:scale-110 transition-transform">
-                    <FaComment className="text-xl text-white/70 hover:text-white" />
-                  </button>
+              <img
+                src={selectedImage.images[0]?.url}
+                alt=""
+                className="md:h-[75%] text-black w-full"
+              />
+              <div className="text-text-2xl p-2">
+                <div className="flex gap-4">
+                  <FaHeart className="text-red text-2xl" />
+                  <FaComment className="text-2xl text-gray-700" />
                 </div>
-                <div>
-                  <span className="font-semibold text-lg text-white">{selectedImage.name}</span>
+                <div className="text-white">
+                  <span className="font-semibold text-xl">{selectedImage.name}</span>
                 </div>
                 {selectedImage.link && (
                   <a
                     href={selectedImage.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block mt-2 text-sm text-yellow/70 hover:text-yellow hover:underline transition"
+                    className="block mt-4 text-yellow/40 hover:underline"
                   >
-                    Explore More →
+                    Explore More
                   </a>
                 )}
               </div>
