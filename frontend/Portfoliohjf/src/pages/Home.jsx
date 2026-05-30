@@ -152,10 +152,9 @@ const onTouchEnd = () => {
 {featuredImages.length > 0 && (
   <div 
     onMouseEnter={handleMouseEnter}
-    // 👇 SWIPE HANDLERS ADDED HERE FOR MOBILE TRAFFIC
     onTouchStart={onTouchStart}
+    onTouchMove={onTouchMove} // 👈 ADD THIS LINE HERE
     onTouchEnd={onTouchEnd}
-    // 💡 REMOVED h-[60vh] and h-[80vh]. Used aspect-[3/2] for mobile to keep a crisp rectangular landscape ratio, switching back to full screen on md desktops.
     className="w-full aspect-[3/2] md:h-screen relative overflow-hidden group border-b border-white/5 bg-black"
   >
     {/* Active Slideshow Framework */}
