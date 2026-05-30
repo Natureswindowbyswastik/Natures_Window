@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Footer from "../components/Footer";
-import { motion } from "framer-motion";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { FEATURED_IMAGES } from "../constants/Constants";
 import homeimg from '../assets/images/IMG_1566.JPG'
-import { FaLocationDot } from "react-icons/fa6";
-
+import { FaLocationDot, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+// Add this helper function near the top of your Home component (outside or inside)
+const getHighQualityUrl = (url) => {
+  if (!url) return "";
+  // Check if it's a Cloudinary link before modifying it
+  if (url.includes("res.cloudinary.com")) {
+    // Splits the URL right after '/upload/' to inject high-quality parameters
+    return url.replace("/upload/", "/upload/f_auto,q_auto:good,w_1920,c_limit/");
+  }
+  return url;
+};
 function Home() {
 
   useEffect(() => {
@@ -17,54 +24,86 @@ function Home() {
   }, []);
 
   const [gallery, setGallery] = useState([]);
-
-  const [selectedImage, setSelectedImage] = useState(null);
   const [featuredImages, setFeaturedImages] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isTextVisible, setIsTextVisible] = useState(true);
 
-  // Fetch featured images from the backend
- useEffect(() => {
-    setFeaturedImages(FEATURED_IMAGES);
-    setSelectedImage(FEATURED_IMAGES[0].images[0].url); // Set first image by default
-  }, []);
-
-  // ✅ Handle image hover
-  const handleHoverImage = (imageUrl) => {
-    setSelectedImage(imageUrl);
-  };
-
+  // Parallel API data-fetching engine (Fetches both sections concurrently)
   useEffect(() => {
-    const fetchGallery = async () => {
+    const fetchHomeData = async () => {
       setLoading(true);
+      const API_BASE = import.meta.env.VITE_REACT_APP_API_URL;
+      
       try {
-        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/gallery/showimage`);
+        const [galleryRes, featuredRes] = await Promise.all([
+          axios.get(`${API_BASE}/gallery/showimage`),
+          axios.get(`${API_BASE}/gallery/featured`) // Connected to your live router endpoint
+        ]);
 
-        setGallery(response.data.gallery ); 
-      } catch (error) {
-        setError(error.message);
+        if (galleryRes.data?.gallery) {
+          setGallery(galleryRes.data.gallery);
+        }
+        
+        if (featuredRes.data?.featuredImage) {
+          setFeaturedImages(featuredRes.data.featuredImage);
+        }
+      } catch (err) {
+        setError(err.message || "Failed to retrieve imagery content.");
       } finally {
         setLoading(false);
       }
     };
-    fetchGallery();
+
+    fetchHomeData();
   }, []);
-  
 
+  // Reset the 3-second text timer whenever the active slide changes
+  useEffect(() => {
+    setIsTextVisible(true);
+    const timer = setTimeout(() => {
+      setIsTextVisible(false);
+    }, 3000);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
+
+  // Helper to manually trigger the text show when mouse wakes up the carousel container
+  const handleMouseEnter = () => {
+    setIsTextVisible(true);
+  };
+
+  // Navigation handlers for the carousel
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? featuredImages.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === featuredImages.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  if (loading) return <p className="text-white text-center py-24 bg-black h-screen">Loading beautiful visuals...</p>;
+  if (error) return <p className="text-red-500 text-center py-24 bg-black h-screen">Error: {error}</p>;
+
+  // Safe object value extraction based on your Mongoose schema structure
+  const currentImageObj = featuredImages[currentIndex]?.images?.[0]?.url;
+  const currentName = featuredImages[currentIndex]?.name;
+  const currentLoc = featuredImages[currentIndex]?.location;
 
   return (
     <>
-      <div className="home h-full">
-        {/* Background Slider */}
-        <div className="">
-          <div className="relative"  >
+      <div className="home h-full bg-black text-white">
+        {/* Background Hero Slider */}
+        <div className="relative">
+          <div className="relative">
             <img
               src={homeimg}
-              alt=""
-          
+              alt="Nature's Window Hero Banner"
               className="w-full h-screen flex object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-black/100"></div>
@@ -80,43 +119,81 @@ function Home() {
           </div>
         </div>
 
-        {/* Image Display on Hover */}
-        <div className="w-full h-[fit] overflow-hidden flex flex-col items-center">
-          <div className="w-full md:w-[95%] md:h-[60%] h-full relative rounded-md">
-            <div className="imagecontainer">
-              {selectedImage && (
-                <motion.img
-                  key={selectedImage} // Ensures animation triggers on change
-                  src={selectedImage}
-                  alt="Selected"
-                  className="w-full object-cover h-screen rounded-md"
-                  initial={{ opacity: 0.8, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0.8, scale: 0.9 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-white/10 to-black/50"></div>
-              <div className="absolute grid grid-cols-4 text-center inset-0 cursor-pointer">
-                {featuredImages.map((item, index) => (
-                  <div
-                    key={index}
-                    onMouseOver={() => handleHoverImage(item.images[0]?.url)}
-                    className="sliderimg group imagechange"
-                  >
-                    <h1 className="relative h-40 font-bold text-2xl px-4 py-2 group-hover:text-yellow transform duration-300 ease-in-out">
-                      <span className="absolute inset-0 translate-y-[-100%] bg-black group-hover:translate-y-0 transition-transform duration-500 ease-in-out md:block hidden"></span>
-                      <p className="textchange relative z-10 md:text-3xl text-xl text-center ">
-                        {item.name} <br />{" "}
-                        <span className="text-sm">{item.location}</span>
-                      </p>
-                    </h1>
-                  </div>
-                ))}
+        {/* Responsive Full-Width Carousel Section with Auto-Dimming Text */}
+        {featuredImages.length > 0 && (
+          <div 
+            onMouseEnter={handleMouseEnter}
+            className="w-full h-[60vh] sm:h-[80vh] md:h-screen relative overflow-hidden group border-b border-white/5 bg-black"
+          >
+            {/* Active Slideshow Framework */}
+            {currentImageObj && (
+              <div className="w-full h-full relative">
+{/* Replace your old img tag with this */}
+<img
+  src={getHighQualityUrl(currentImageObj)}
+  alt={currentName || "Featured Slider Image"}
+  className="w-full h-full object-cover transition-all duration-700 ease-in-out"
+/>
+                {/* Dimmer overlay transitions deeper on hover, but un-dims if text has auto-faded out */}
+                <div className={`absolute inset-0 transition-colors duration-500 bg-black/40 lg:bg-black/25 ${
+                  isTextVisible ? "lg:group-hover:bg-black/60" : "lg:group-hover:bg-black/30"
+                }`}></div>
               </div>
+            )}
+
+            {/* Completely Centered Content Details - Disappears automatically after 3 seconds */}
+            <div className={`absolute inset-0 flex flex-col items-center justify-center text-center px-4 sm:px-6 pointer-events-none transition-all duration-700 ease-in-out ${
+              isTextVisible 
+                ? "opacity-100 lg:opacity-0 lg:group-hover:opacity-100 translate-y-0" 
+                : "opacity-0 pointer-events-none translate-y-2"
+            }`}>
+              <h2 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-wide uppercase drop-shadow-2xl px-2">
+                {currentName}
+              </h2>
+              {currentLoc && (
+                <p className="text-yellow flex items-center justify-center gap-1.5 sm:gap-2 mt-2 sm:mt-4 text-sm sm:text-lg md:text-2xl font-medium tracking-wider drop-shadow">
+                  <FaLocationDot className="text-xs sm:text-base" />
+                  {currentLoc}
+                </p>
+              )}
             </div>
+
+            {/* Render directional triggers and dot tracking navigation flags only if multiple assets exist */}
+            {featuredImages.length > 1 && (
+              <>
+                {/* Carousel Control Buttons - Visible Only on Hover */}
+                <button
+                  onClick={handlePrev}
+                  className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-4 rounded-full bg-black/50 text-white border border-white/10 hover:bg-yellow hover:text-black opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm z-20 shadow-2xl active:scale-95"
+                  aria-label="Previous Image"
+                >
+                  <FaChevronLeft className="text-sm sm:text-xl md:text-2xl" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-4 rounded-full bg-black/50 text-white border border-white/10 hover:bg-yellow hover:text-black opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm z-20 shadow-2xl active:scale-95"
+                  aria-label="Next Image"
+                >
+                  <FaChevronRight className="text-sm sm:text-xl md:text-2xl" />
+                </button>
+
+                {/* Interactive Dot Triggers - Visible Only on Hover */}
+                <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-20 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500">
+                  {featuredImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentIndex(index)}
+                      className={`h-1.5 sm:h-2.5 rounded-full transition-all duration-300 ${
+                        index === currentIndex ? "w-6 sm:w-10 bg-yellow" : "w-1.5 sm:w-2.5 bg-white/40 hover:bg-white/80"
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
-        </div>
+        )}
 
         {/* Quote Section */}
         <div className="w-full md:h-screen text-white overflow-hidden flex justify-center items-center text-center">
@@ -125,7 +202,6 @@ function Home() {
               src="https://res.cloudinary.com/dj010hm7j/image/upload/v1737389656/DSC_3868_eaosja.jpg"
               alt=""
               className="object-center"
-          
             />
             <div className="absolute inset-0 bg-gradient-to-b bg-black/50"></div>
             <div className="absolute inset-0 flex justify-center items-center text-yellow">
@@ -145,26 +221,26 @@ function Home() {
 
         {/* Gallery Section */}
         <div className="h-fit flex flex-col items-center justify-center">
-  <h1 className="text-3xl font-bold p-4" data-aos="fade-down">
-    View Through Our Lens
-  </h1>
+          <h1 className="text-3xl font-bold p-4" data-aos="fade-down">
+            View Through Our Lens
+          </h1>
           <div className="w-[90%] columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
             {gallery.length === 0 ? (
               <p className="text-white/40 text-center py-12 w-full col-span-full">No images available at the moment.</p>
             ) : (
-              gallery.slice(0, 8).map((image) => ( // Changed slice count to 8 for balanced layouts across multi-column steps
+              gallery.slice(0, 8).map((image) => (
                 <div
                   key={image._id}
                   className="break-inside-avoid relative overflow-hidden rounded-xl cursor-pointer group bg-zinc-900 shadow-md border border-white/5"
                   data-aos="fade-up"
                 >
-                  <img
-                    src={image.images[0]?.url}
-                    alt={image.name}
-                    className="w-full h-auto object-contain block transition-transform duration-500 group-hover:scale-[1.02]"
-                  />
+<img
+  src={getHighQualityUrl(image.images[0]?.url)}
+  alt={image.name}
+  className="w-full h-auto object-contain block transition-transform duration-500 group-hover:scale-[1.02]"
+/>
 
-                  {/* Clean Bottom Text Overlay matching your theme */}
+                  {/* Clean Bottom Text Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
                     <h3 className="text-lg font-bold text-white leading-tight">{image.name}</h3>
                     {image.location && (
@@ -178,12 +254,12 @@ function Home() {
               ))
             )}
           </div>
-  <div className="p-4" data-aos="fade-left">
-    <Link to="/collection">
-      <Button text="View More" />
-    </Link>
-  </div>
-</div>
+          <div className="p-4" data-aos="fade-left">
+            <Link to="/collection">
+              <Button text="View More" />
+            </Link>
+          </div>
+        </div>
 
         <Footer />
       </div>
