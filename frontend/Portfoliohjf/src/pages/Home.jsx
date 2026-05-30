@@ -29,6 +29,35 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isTextVisible, setIsTextVisible] = useState(true);
+  // 1. Declare touch coordinate tracker state near your other states
+const [touchStart, setTouchStart] = useState(null);
+const [touchEnd, setTouchEnd] = useState(null);
+
+// Minimum distance in pixels needed to qualify as a deliberate swipe action
+const minSwipeDistance = 50;
+
+const onTouchStart = (e) => {
+  setTouchEnd(null); // Reset
+  setTouchStart(e.targetTouches[0].clientX);
+};
+
+const onTouchMove = (e) => {
+  setTouchEnd(e.targetTouches[0].clientX);
+};
+
+const onTouchEnd = () => {
+  if (!touchStart || !touchEnd) return;
+  
+  const distance = touchStart - touchEnd;
+  const isLeftSwipe = distance > minSwipeDistance;
+  const isRightSwipe = distance < -minSwipeDistance;
+
+  if (isLeftSwipe) {
+    handleNext(); // Swiping left changes to the next item
+  } else if (isRightSwipe) {
+    handlePrev(); // Swiping right changes to the previous item
+  }
+};
 
   // Parallel API data-fetching engine (Fetches both sections concurrently)
   useEffect(() => {
@@ -120,80 +149,84 @@ function Home() {
         </div>
 
         {/* Responsive Full-Width Carousel Section with Auto-Dimming Text */}
-        {featuredImages.length > 0 && (
-          <div 
-            onMouseEnter={handleMouseEnter}
-            className="w-full h-[60vh] sm:h-[80vh] md:h-screen relative overflow-hidden group border-b border-white/5 bg-black"
-          >
-            {/* Active Slideshow Framework */}
-            {currentImageObj && (
-              <div className="w-full h-full relative">
-{/* Replace your old img tag with this */}
-<img
-  src={getHighQualityUrl(currentImageObj)}
-  alt={currentName || "Featured Slider Image"}
-  className="w-full h-full object-cover transition-all duration-700 ease-in-out"
-/>
-                {/* Dimmer overlay transitions deeper on hover, but un-dims if text has auto-faded out */}
-                <div className={`absolute inset-0 transition-colors duration-500 bg-black/40 lg:bg-black/25 ${
-                  isTextVisible ? "lg:group-hover:bg-black/60" : "lg:group-hover:bg-black/30"
-                }`}></div>
-              </div>
-            )}
+{featuredImages.length > 0 && (
+  <div 
+    onMouseEnter={handleMouseEnter}
+    // 👇 SWIPE HANDLERS ADDED HERE FOR MOBILE TRAFFIC
+    onTouchStart={onTouchStart}
+    onTouchEnd={onTouchEnd}
+    // 💡 REMOVED h-[60vh] and h-[80vh]. Used aspect-[3/2] for mobile to keep a crisp rectangular landscape ratio, switching back to full screen on md desktops.
+    className="w-full aspect-[3/2] md:h-screen relative overflow-hidden group border-b border-white/5 bg-black"
+  >
+    {/* Active Slideshow Framework */}
+    {currentImageObj && (
+      <div className="w-full h-full relative">
+        <img
+          src={getHighQualityUrl(currentImageObj)}
+          alt={currentName || "Featured Slider Image"}
+          // 💡 Switch object-cover to object-contain on mobile if you absolutely refuse ANY cropping, though object-cover looks better with aspect-[3/2]
+          className="w-full h-full object-cover transition-all duration-700 ease-in-out"
+        />
+        {/* Dimmer overlay transitions deeper on hover, but un-dims if text has auto-faded out */}
+        <div className={`absolute inset-0 transition-colors duration-500 bg-black/40 lg:bg-black/25 ${
+          isTextVisible ? "lg:group-hover:bg-black/60" : "lg:group-hover:bg-black/30"
+        }`}></div>
+      </div>
+    )}
 
-            {/* Completely Centered Content Details - Disappears automatically after 3 seconds */}
-            <div className={`absolute inset-0 flex flex-col items-center justify-center text-center px-4 sm:px-6 pointer-events-none transition-all duration-700 ease-in-out ${
-              isTextVisible 
-                ? "opacity-100 lg:opacity-0 lg:group-hover:opacity-100 translate-y-0" 
-                : "opacity-0 pointer-events-none translate-y-2"
-            }`}>
-              <h2 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-wide uppercase drop-shadow-2xl px-2">
-                {currentName}
-              </h2>
-              {currentLoc && (
-                <p className="text-yellow flex items-center justify-center gap-1.5 sm:gap-2 mt-2 sm:mt-4 text-sm sm:text-lg md:text-2xl font-medium tracking-wider drop-shadow">
-                  <FaLocationDot className="text-xs sm:text-base" />
-                  {currentLoc}
-                </p>
-              )}
-            </div>
+    {/* Completely Centered Content Details - Disappears automatically after 3 seconds */}
+    <div className={`absolute inset-0 flex flex-col items-center justify-center text-center px-4 sm:px-6 pointer-events-none transition-all duration-700 ease-in-out ${
+      isTextVisible 
+        ? "opacity-100 lg:opacity-0 lg:group-hover:opacity-100 translate-y-0" 
+        : "opacity-0 pointer-events-none translate-y-2"
+    }`}>
+      <h2 className="text-xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-wide uppercase drop-shadow-2xl px-2">
+        {currentName}
+      </h2>
+      {currentLoc && (
+        <p className="text-yellow flex items-center justify-center gap-1.5 sm:gap-2 mt-1 sm:mt-4 text-xs sm:text-lg md:text-2xl font-medium tracking-wider drop-shadow">
+          <FaLocationDot className="text-[10px] sm:text-base" />
+          {currentLoc}
+        </p>
+      )}
+    </div>
 
-            {/* Render directional triggers and dot tracking navigation flags only if multiple assets exist */}
-            {featuredImages.length > 1 && (
-              <>
-                {/* Carousel Control Buttons - Visible Only on Hover */}
-                <button
-                  onClick={handlePrev}
-                  className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-4 rounded-full bg-black/50 text-white border border-white/10 hover:bg-yellow hover:text-black opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm z-20 shadow-2xl active:scale-95"
-                  aria-label="Previous Image"
-                >
-                  <FaChevronLeft className="text-sm sm:text-xl md:text-2xl" />
-                </button>
-                <button
-                  onClick={handleNext}
-                  className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-4 rounded-full bg-black/50 text-white border border-white/10 hover:bg-yellow hover:text-black opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm z-20 shadow-2xl active:scale-95"
-                  aria-label="Next Image"
-                >
-                  <FaChevronRight className="text-sm sm:text-xl md:text-2xl" />
-                </button>
+    {/* Render directional triggers and dot tracking navigation flags only if multiple assets exist */}
+    {featuredImages.length > 1 && (
+      <>
+        {/* Carousel Control Buttons - Hidden completely on mobile/tablets (hidden lg:block) */}
+        <button
+          onClick={handlePrev}
+          className="hidden lg:block absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-4 rounded-full bg-black/50 text-white border border-white/10 hover:bg-yellow hover:text-black opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm z-20 shadow-2xl active:scale-95"
+          aria-label="Previous Image"
+        >
+          <FaChevronLeft className="text-sm sm:text-xl md:text-2xl" />
+        </button>
+        <button
+          onClick={handleNext}
+          className="hidden lg:block absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-4 rounded-full bg-black/50 text-white border border-white/10 hover:bg-yellow hover:text-black opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm z-20 shadow-2xl active:scale-95"
+          aria-label="Next Image"
+        >
+          <FaChevronRight className="text-sm sm:text-xl md:text-2xl" />
+        </button>
 
-                {/* Interactive Dot Triggers - Visible Only on Hover */}
-                <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-20 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500">
-                  {featuredImages.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentIndex(index)}
-                      className={`h-1.5 sm:h-2.5 rounded-full transition-all duration-300 ${
-                        index === currentIndex ? "w-6 sm:w-10 bg-yellow" : "w-1.5 sm:w-2.5 bg-white/40 hover:bg-white/80"
-                      }`}
-                      aria-label={`Go to slide ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        )}
+        {/* Interactive Dot Triggers - Visible always on mobile, responds to hover on desktop */}
+        <div className="absolute bottom-3 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-3 z-20 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500">
+          {featuredImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`h-1 sm:h-2.5 rounded-full transition-all duration-300 ${
+                index === currentIndex ? "w-4 sm:w-10 bg-yellow" : "w-1 sm:w-2.5 bg-white/40 hover:bg-white/80"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+)}
 
         {/* Quote Section */}
         <div className="w-full md:h-screen text-white overflow-hidden flex justify-center items-center text-center">
