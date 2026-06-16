@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getBlogImage } from "../utils/blogHelpers";
 
 function BlogDetail() {
   const { slug } = useParams();
@@ -54,14 +55,14 @@ function BlogDetail() {
   return (
     <section className="m-h-screen pt-24 bg-gray-50">
       <button
-          onClick={() => navigate("/blogs")}
+          onClick={() => navigate("/blog")}
           className="px-4 py-2 bg-indigo-600 text-white rounded-lg"
         >
           Go back
         </button>
       <div className="max-w-5xl mx-auto p-6">
         <img
-          src={blog.images}
+          src={getBlogImage(blog.images)}
           alt={blog.heading}
           className="w-full h-[60vh] object-cover rounded-xl mb-8"
         />
@@ -71,9 +72,10 @@ function BlogDetail() {
           {blog.subheading}
         </p>
 
-        <p className="text-lg leading-relaxed text-gray-700 whitespace-pre-line">
-          {blog.descriptions}
-        </p>
+        <div
+          className="blog-content text-lg leading-relaxed text-gray-700"
+          dangerouslySetInnerHTML={{ __html: blog.descriptions }}
+        />
       </div>
     </section>
   );

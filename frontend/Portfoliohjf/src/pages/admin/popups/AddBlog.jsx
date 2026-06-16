@@ -3,6 +3,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../../components/Button';
+import RichTextEditor from '../../../components/RichTextEditor';
+import { isRichTextEmpty } from '../../../utils/stripHtml';
 
 function AddBlog({ showAddBlog, setShowAddBlog }) {
   const [formData, setFormData] = useState({
@@ -31,7 +33,7 @@ function AddBlog({ showAddBlog, setShowAddBlog }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.heading || !formData.subheading || !formData.images.length || !formData.descriptions ) {
+    if (!formData.heading || !formData.subheading || !formData.images.length || isRichTextEmpty(formData.descriptions)) {
       toast.error('All fields are required!');
       return;
     }
@@ -66,7 +68,7 @@ function AddBlog({ showAddBlog, setShowAddBlog }) {
     <>
       {showAddBlog && (
         <div className="fixed inset-0 z-50 flex flex-col gap-10 items-center justify-center bg-grey/80">
-          <div className="bg-white rounded-md shadow-2xl p-8 w-96 text-black">
+          <div className="bg-white rounded-md shadow-2xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto text-black">
             <p className="text-center font-bold text-yellow text-2xl">Add Blog</p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -96,12 +98,9 @@ function AddBlog({ showAddBlog, setShowAddBlog }) {
 
               <div className="flex flex-col font-bold">
                 <label htmlFor="descriptions">Description</label>
-                <textarea
-                  name="descriptions"
+                <RichTextEditor
                   value={formData.descriptions}
-                  onChange={handleChange}
-                  className="bg-grey/30 rounded-md p-2"
-                  required
+                  onChange={(value) => setFormData({ ...formData, descriptions: value })}
                 />
               </div>
 

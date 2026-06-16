@@ -8,6 +8,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import { stripHtml } from "../utils/stripHtml";
+import { getBlogImage, getBlogPath } from "../utils/blogHelpers";
 
 function BlogPage() {
   const [blogs, setBlogs] = useState([]);
@@ -41,7 +43,7 @@ function BlogPage() {
   }, []);
 
   const filteredBlogs = blogs.filter((blog) => {
-    const text = `${blog.heading} ${blog.subheading} ${blog.descriptions}`.toLowerCase();
+    const text = `${blog.heading} ${blog.subheading} ${stripHtml(blog.descriptions)}`.toLowerCase();
     return text.includes(searchTerm.toLowerCase());
   });
 
@@ -105,7 +107,7 @@ function BlogPage() {
                   >
                     <div className="w-full h-56 overflow-hidden relative">
                       <img
-                        src={blog.images}
+                        src={getBlogImage(blog.images)}
                         alt={blog.heading}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -120,12 +122,12 @@ function BlogPage() {
                       </p>
 
                       <p className="text-sm text-gray-600 line-clamp-3">
-                        {blog.descriptions}
+                        {stripHtml(blog.descriptions)}
                       </p>
 
                       <div className="mt-4">
                         <Link
-                          to={`/blog/${blog.slug}`}
+                          to={getBlogPath(blog)}
                           className="flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
                         >
                           Read more →

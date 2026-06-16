@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const BlogSchema = new mongoose.Schema({
     heading: {
@@ -27,5 +28,28 @@ const BlogSchema = new mongoose.Schema({
         }
 
     });
+
+BlogSchema.pre("save", async function (next) {
+  if (this.slug || !this.heading) {
+    return next();
+  }
+
+  const baseSlug = slugify(this.heading, { lower: true, strict: true });
+  let slug = baseSlug;
+  let counter = 1;
+
+  while (
+    await mongoose.models.Blog.findOne({
+      slug,
+      _id: { $ne: this._id },
+    })
+  ) {
+    slug = `${baseSlug}-${counter++}`;
+  }
+
+  this.slug = slug;
+  next();
+});
+
     const BlogModel = mongoose.model("Blog", BlogSchema);
     module.exports = BlogModel;

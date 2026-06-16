@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AOS from "aos";
 import "aos/dist/aos.css";
+import profile from '../assets/images/profile.jpeg';
 function About() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -100,19 +101,20 @@ useEffect(()=>{
 
         {/* About Page */}
         <div className="w-full h-full">
-          <div className="justify-center items-center flex">
+          <div className="justify-center items-center flex ">
             <p className="text-6xl border-b-2 text-left w-[85%] flex text-yellow font-bold">
               About me
             </p>
           </div>
           <div className="flex w-full justify-center align-center mt-10 mb-10">
-            <div className="flex md:flex-col lg:flex-row flex-col-reverse justify-around w-[90%] items-center">
-              <div className="flex-[0.4] flex flex-col gap-4 text-justify" data-aos="fade-up">
+            <div className="flex md:flex-col lg:flex-row flex-col-reverse justify-between gap-40 w-[85%] items-center ">
+              <div className="flex-[0.5] flex flex-col  text-justify" data-aos="fade-up">
                 <h1 className="md:text-2xl text-xs">
-                 Through my lens, I strive to capture the fleeting beauty and raw emotion of the wild.
-                  In the stillness of a forest, the quiet observation of a hidden creature – these are the moments I live for.
-                   I'm Swastik, a wildlife photographer in Dehradun, Uttarakhand, and I use my Sony A6700 & Nikon D7200 to freeze these precious instants in time. 
-                   My journey started with my mother's Sony Ericsson Xperia and really took off when my father gifted me a Sony Cybershot DSC-HX10V at 14. Now, every click of the shutter is a chance to share the beauty and vulnerability of the natural world, hoping to inspire others to appreciate the wild spaces that share our planet.
+                Nature's Window is a photography project built on one simple idea that the world, when observed with patience, reveals more than it conceals.
+Based in Dehradun and working across India, the work moves between wildlife, landscape, and street photography  not as separate disciplines, but as different ways of paying attention to the same world. Every frame is made in the field, without intervention, waiting for the moment to arrive rather than forcing it.
+The camera here is not a tool for capturing. It is a window for looking. What ends up in the frame is less about what was in front of the lens and more about what was worth waiting for.
+Nature's Window is that wait, and everything it finds.
+If something here resonates with you, or if you have a project worth building together, I would love to connect.
 
                 </h1>
                 <h1 className="text-2xl font-bold">
@@ -120,12 +122,12 @@ useEffect(()=>{
                   connect!
                 </h1>
               </div>
-              <div className="image flex-[0.5] text-yellow">
+              <div className="image flex-[0.5] text-yellow ">
                 <img
-                  src="https://res.cloudinary.com/dj010hm7j/image/upload/v1739257707/IMG_8901_j7tp5n.jpg"
-                  alt=""
+                  src={profile}
+                  alt="profile"
                    data-aos="fade-down"
-                  className="flex object-cover rounded-md" 
+                  className="flex object-cover rounded-md  w-[80%]" 
                 />
               </div>
             </div>

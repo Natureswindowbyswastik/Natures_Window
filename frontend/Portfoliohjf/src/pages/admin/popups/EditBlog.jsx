@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../../components/Button';
 import axios from 'axios';
-import { FaTimes } from "react-icons/fa";
+import RichTextEditor from '../../../components/RichTextEditor';
 
 function EditBlog({ showEditBlog, setShowEditBlog, currentBlog }) {
   const [formData, setFormData] = useState({
@@ -68,7 +68,7 @@ function EditBlog({ showEditBlog, setShowEditBlog, currentBlog }) {
     <>
       {showEditBlog && (
         <div className="fixed inset-0 z-50 flex flex-col gap-10 items-center justify-center bg-grey-900 bg-opacity-80">
-          <div className="bg-white rounded-md shadow-2xl p-8 w-fit text-black">
+          <div className="bg-white rounded-md shadow-2xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto text-black">
             <div className="flex justify-between items-center">
               <p className=" font-bold text-yellow  text-4xl text-center ">Edit Blog</p>
              
@@ -102,13 +102,10 @@ function EditBlog({ showEditBlog, setShowEditBlog, currentBlog }) {
 
               <div className="flex flex-col font-bold">
                 <label>Description</label>
-                <textarea
-                  name="descriptions"
+                <RichTextEditor
                   value={formData.descriptions}
-                  onChange={handleChange}
-                  className="bg-grey/20 rounded-md p-2"
-                  rows="4"
-                ></textarea>
+                  onChange={(value) => setFormData({ ...formData, descriptions: value })}
+                />
               </div>
 
               <div className="flex flex-col font-bold">

@@ -1,11 +1,18 @@
 const BlogModel = require('../model/Blog')
+const mongoose = require('mongoose')
 
 const addBlog= async(req,res)=>{
     try {
         const{heading, subheading,descriptions, link}= req.body;
         const uploadImage = req.file.path;
 
-        const blogModel = new BlogModel({heading,subheading,descriptions,link, images:uploadImage})
+        const blogModel = new BlogModel({
+            heading,
+            subheading,
+            descriptions,
+            link,
+            images: [uploadImage],
+        })
 
         await blogModel.save();
         res.status(201)
@@ -27,15 +34,22 @@ const addBlog= async(req,res)=>{
 
 const displayBlog = async(req,res)=>{
     try {
-        const blog = await BlogModel.find();
-        if(blog.length==0){
+        const blogs = await BlogModel.find();
+
+        for (const blog of blogs) {
+            if (!blog.slug) {
+                await blog.save();
+            }
+        }
+
+        if(blogs.length==0){
             return res.status(404)
             .json({message:"No blogs"})
         }
         res.status(200).json({
             success:true,
             message:"Blogs retrived",
-           blog:blog
+           blog:blogs
         })
     } catch (error) {
         res.status(500)
@@ -47,9 +61,18 @@ const displayBlog = async(req,res)=>{
 }
 const getBlogBySlug = async(req,res)=>{
  try {
-    const blog = await BlogModel.findOne({
-        slug:req.params.slug
-    })
+    let blog = await BlogModel.findOne({
+        slug: req.params.slug
+    });
+
+    if (!blog && mongoose.Types.ObjectId.isValid(req.params.slug)) {
+      blog = await BlogModel.findById(req.params.slug);
+    }
+
+    if (blog && !blog.slug) {
+      await blog.save();
+    }
+
       if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
@@ -79,7 +102,7 @@ const editBlog = async (req,res)=>{
      
    // Update the image if a new one is uploaded
    if (req.file) {
-    blog.images = req.file.path; 
+    blog.images = [req.file.path];
 }
         
         await blog.save();

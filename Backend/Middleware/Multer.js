@@ -32,6 +32,12 @@ const blogStorage = new CloudinaryStorage({
         ]
     }
 });
-const uploadBlog = multer({ storage: blogStorage });
+const uploadBlog = multer({
+    storage: blogStorage,
+    limits: {
+        fileSize: 4.2 * 1024 * 1024,
+        fieldSize: 10 * 1024 * 1024, // Rich text HTML from React Quill can exceed 1MB default
+    },
+});
 
 module.exports = { upload, uploadBlog };
